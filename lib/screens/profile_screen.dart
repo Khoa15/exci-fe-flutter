@@ -98,10 +98,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                         Text(
-                          _user!.name,
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
                           '@${_user!.email}',
                           style: TextStyle(fontSize: 18, color: Colors.grey[700]),
                         ),
