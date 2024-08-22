@@ -32,9 +32,6 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Vocabulary'),
-      ),
       body: Center(
         child: Text(
           'Vocabulary',
