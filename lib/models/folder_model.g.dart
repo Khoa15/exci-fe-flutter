@@ -16,5 +16,5 @@ FolderModel _$FolderModelFromJson(Map<String, dynamic> json) => FolderModel(
 Map<String, dynamic> _$FolderModelToJson(FolderModel instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'listWords': instance.listWord,
+      'listWord': instance.listWord,
     };

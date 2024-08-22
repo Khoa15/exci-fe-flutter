@@ -41,7 +41,10 @@ class MyApp extends StatelessWidget {
           if (uri.pathSegments.length == 2 && uri.pathSegments.first == 'folder') {
             final folderId = uri.pathSegments[1];
             // Retrieve the FolderModel based on folderId or create a placeholder
-            final folder = FolderModel(name: folderId, listWord: [WordModel(word: 'Apple')]);
+            final folder = FolderModel(name: folderId, listWord: [
+              WordModel(word: 'Apple', audio: 'https://api.dictionaryapi.dev/media/pronunciations/en/apple-us.mp3'), 
+              WordModel(word: 'Banana', audio: 'https://api.dictionaryapi.dev/media/pronunciations/en/banana-us.mp3'), 
+              WordModel(word: 'Yard', audio: 'https://api.dictionaryapi.dev/media/pronunciations/en/yard-us.mp3')]);
 
             return MaterialPageRoute(
               builder: (context) => WordListScreen(folder: folder),
