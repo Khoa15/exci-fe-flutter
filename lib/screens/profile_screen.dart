@@ -60,31 +60,107 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       body: _user == null ? 
       Center(child: Text("Không tìm thấy thông tin người dùng"),)
-      : Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      :
+      Column(
           children: [
-            Text(
-              'Profile',
-              style: TextStyle(fontSize: 24),
-            ),
-            if (_user!.profilePictureUrl.isNotEmpty)
-              CircleAvatar(
-                backgroundImage: NetworkImage('https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg'),//_user!.profilePictureUrl),
-                radius: 50,
+            Container(
+              padding: EdgeInsets.all(16.0),
+              color: Colors.blueGrey[100],
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundImage: NetworkImage(_user!.profilePictureUrl),
+                  ),
+                  SizedBox(width: 16.0),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              _user!.name,
+                              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              // Xử lý khi nhấn vào nút tròn
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Nút tròn nhấn')),
+                              );
+                            },
+                            icon: Icon(Icons.edit, color: Colors.blue),
+                            iconSize: 20.0,
+                          ),
+                        ],
+                      ),
+                        Text(
+                          _user!.name,
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          '@${_user!.email}',
+                          style: TextStyle(fontSize: 18, color: Colors.grey[700]),
+                        ),
+                        Text(
+                          'Level: ${_user!.id}',
+                          style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            SizedBox(height: 16),
-            Text(
-              _user!.name,
-              style: TextStyle(fontSize: 24),
             ),
-            Text(
-              _user!.email,
-              style: TextStyle(fontSize: 18, color: Colors.grey),
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.all(16.0),
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      // Xử lý khi nhấn vào nút 1
+                    },
+                    child: Text('Xem xếp hạng'),
+                  ),
+                  SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Xử lý khi nhấn vào nút 2
+                    },
+                    child: Text('Phân tích chỉ số nhớ'),
+                  ),
+                  SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Xử lý khi nhấn vào nút 3
+                    },
+                    child: Text('Góp ý & phản hồn'),
+                  ),
+                  // Thêm các nút khác nếu cần
+                ],
+              ),
+            ),
+            // Nút Đăng xuất
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  // Xử lý khi nhấn vào nút Đăng xuất
+                  // Ví dụ: Điều hướng về màn hình đăng nhập hoặc thực hiện logout
+                  Navigator.pushReplacementNamed(context, '/login');
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red, // Màu nền của nút Đăng xuất
+                  foregroundColor: Colors.white, // Màu chữ của nút Đăng xuất
+                ),
+                child: Text('Đăng xuất'),
+              ),
             ),
           ],
         ),
-      ),
       bottomNavigationBar: CustomBottomNavigationBar(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,

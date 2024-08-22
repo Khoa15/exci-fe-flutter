@@ -31,7 +31,7 @@ class AuthService with ChangeNotifier{
   Future<void> login(String username, String password) async{
     // Xử lý đăng nhập
     // If thành công
-    UserModel userModel = new UserModel(id: "123", name: "Khoa", password: '', email: "hp09.com@gmail.com");
+    UserModel userModel = new UserModel(id: "123", name: "Khoa", password: '', email: "hp09.com@gmail.com", profilePictureUrl: 'https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/1015f/MainBefore.jpg');
     String userJson = jsonEncode(userModel.toJson());
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isLoggedIn', true);
