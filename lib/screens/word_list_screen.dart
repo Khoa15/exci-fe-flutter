@@ -112,7 +112,7 @@ class _WordListScreenState extends State<WordListScreen> {
                 },
                 child: Text('Check'),
               ),
-            ] else if ( !_showMeaning && !_isCorrect) ...[
+            ] else if (!_showMeaning && !_isCorrect) ...[
               // Hiển thị nút phát âm
               ElevatedButton(
                 onPressed: _playAudio,
