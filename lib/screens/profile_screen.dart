@@ -122,6 +122,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: ListView(
                     padding: EdgeInsets.all(16.0),
                     children: [
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          // Xử lý khi nhấn nút
+                        },
+                        icon: const Icon(Icons.star, color: Colors.white),
+                        label: const Text(
+                          'Nâng cấp',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange, // Màu nền nổi bật
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 24.0, vertical: 12.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          elevation: 5, // Tạo hiệu ứng nổi
+                        ),
+                      ),
+                      SizedBox(height: 16.0),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.push(
@@ -148,8 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  AnalysisScreen(),
+                              builder: (context) => AnalysisScreen(),
                             ),
                           );
                         },
