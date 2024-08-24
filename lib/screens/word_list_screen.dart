@@ -1,29 +1,6 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:exci_flutter/models/folder_model.dart';
 import 'package:flutter/material.dart';
-
-// class WordListScreen extends StatelessWidget{
-//   final FolderModel folder;
-
-//   const WordListScreen({required this.folder});
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(folder.name),
-//       ),
-//       body: ListView.builder(
-//         itemCount: folder.listWord.length,
-//         itemBuilder: (context, index) {
-//           return ListTile(
-//             title: Text(folder.listWord[index].word),
-//           );
-//         },
-//       ),
-//     );
-//   }
-
-// }
+import 'package:audioplayers/audioplayers.dart';
 
 class WordListScreen extends StatefulWidget {
   final FolderModel folder;
@@ -36,40 +13,115 @@ class WordListScreen extends StatefulWidget {
 
 class _WordListScreenState extends State<WordListScreen> {
   int _currentIndex = 0;
-  String _userInput = '';
-  bool _showMeaning = true;
+  int _currentPart = 1;
+  int _wrongAttempts = 0;
   bool _isCorrect = false;
 
   final AudioPlayer _audioPlayer = AudioPlayer();
+  late TextEditingController _textController;
+  late FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _textController = TextEditingController();
+    _focusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  void _nextPart() {
+    setState(() {
+      _currentPart++;
+      _textController.clear();
+      _isCorrect = false;
+      _wrongAttempts = 0;
+    });
+
+    if (_currentPart > 3) {
+      _nextWord();
+    } else {
+      _focusNode.requestFocus();
+    }
+  }
 
   void _nextWord() {
     setState(() {
-      _currentIndex = (_currentIndex + 1) % widget.folder.listWord.length;
-      _showMeaning = true;
-      _userInput = '';
+      _currentIndex++;
+      _currentPart = 1;
+      _textController.clear();
       _isCorrect = false;
+      _wrongAttempts = 0;
     });
+
+    if (_currentIndex >= widget.folder.listWord.length) {
+      _showCongratulationsScreen();
+    } else {
+      _focusNode.requestFocus();
+    }
   }
 
   void _skipWord() {
-    setState(() {
-      _currentIndex = (_currentIndex + 1) % widget.folder.listWord.length;
-      _showMeaning = true;
-      _userInput = '';
-      _isCorrect = false;
-    });
+    _nextPart();
   }
 
   void _checkAnswer(String answer) {
     final currentWord = widget.folder.listWord[_currentIndex];
     setState(() {
       _isCorrect = answer.trim().toLowerCase() == currentWord.word.toLowerCase();
+      if (!_isCorrect) {
+        _wrongAttempts++;
+      }
     });
+
+    if (_isCorrect) {
+      _nextPart();
+    } else if (_wrongAttempts >= 3) {
+      _showHint();
+    }
   }
 
-  void _playAudio() {
+  void _playAudio() async {
     final currentWord = widget.folder.listWord[_currentIndex];
-    _audioPlayer.play(UrlSource(currentWord.audio));
+    if (currentWord.audio != null) {
+      await _audioPlayer.play(UrlSource(currentWord.audio));
+    }
+  }
+
+  void _showHint() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        final currentWord = widget.folder.listWord[_currentIndex];
+        return AlertDialog(
+          title: Text('Hint'),
+          content: Text('The correct word is: ${currentWord.word}'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _nextPart();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showCongratulationsScreen() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CongratulationsScreen(),
+      ),
+    );
   }
 
   @override
@@ -83,44 +135,30 @@ class _WordListScreenState extends State<WordListScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            if (_showMeaning) ...[
-              // Hiển thị thông tin từ
+            if (_currentPart == 1) ...[
+              // Part 1: Hiển thị thông tin từ
               Text(
                 'Word: ${currentWord.word}',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               Text('IPA: ${currentWord.ipa}'),
               Text('Part of Speech: ${currentWord.pos}'),
-              Text('Meaning: ${currentWord.meaning}'),
-              SizedBox(height: 20),
-              TextField(
-                onChanged: (value) => _userInput = value,
-                decoration: InputDecoration(
-                  labelText: 'Enter the meaning',
-                  border: OutlineInputBorder(),
-                ),
-              ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                  _checkAnswer(_userInput);
-                  if (_isCorrect) {
-                    setState(() {
-                      _showMeaning = false;
-                    });
-                  }
-                },
-                child: Text('Check'),
+                onPressed: _nextPart,
+                child: Text('Next'),
               ),
-            ] else if (!_showMeaning && !_isCorrect) ...[
-              // Hiển thị nút phát âm
+            ] else if (_currentPart == 2) ...[
+              // Part 2: Nghe phát âm và nhập từ
               ElevatedButton(
                 onPressed: _playAudio,
                 child: Text('Play Pronunciation'),
               ),
               SizedBox(height: 20),
               TextField(
-                onChanged: (value) => _userInput = value,
+                controller: _textController,
+                focusNode: _focusNode,
+                autofocus: true,
                 decoration: InputDecoration(
                   labelText: 'Enter the word',
                   border: OutlineInputBorder(),
@@ -129,10 +167,27 @@ class _WordListScreenState extends State<WordListScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  _checkAnswer(_userInput);
-                  if (_isCorrect) {
-                    _nextWord();
-                  }
+                  _checkAnswer(_textController.text);
+                },
+                child: Text('Check'),
+              ),
+            ] else if (_currentPart == 3) ...[
+              // Part 3: Hiển thị nghĩa và nhập lại từ
+              Text('Meaning: ${currentWord.meaning}'),
+              SizedBox(height: 20),
+              TextField(
+                controller: _textController,
+                focusNode: _focusNode,
+                autofocus: true,
+                decoration: InputDecoration(
+                  labelText: 'Enter the word again',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  _checkAnswer(_textController.text);
                 },
                 child: Text('Check'),
               ),
@@ -146,12 +201,29 @@ class _WordListScreenState extends State<WordListScreen> {
                   child: Text('Skip'),
                 ),
                 ElevatedButton(
-                  onPressed: _isCorrect || !_showMeaning ? _nextWord : null,
+                  onPressed: _isCorrect || _wrongAttempts >= 3 ? _nextPart : null,
                   child: Text('Next'),
                 ),
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class CongratulationsScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Congratulations'),
+      ),
+      body: Center(
+        child: Text(
+          'You have completed all the words!',
+          style: TextStyle(fontSize: 24),
         ),
       ),
     );

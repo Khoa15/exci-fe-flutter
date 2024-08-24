@@ -31,12 +31,10 @@ class MyApp extends StatelessWidget {
           '/profile': (context) => ProfileScreen(),
         },
         onGenerateRoute: (settings){
-          // Handle '/' route
           if (settings.name == '/') {
             return MaterialPageRoute(builder: (context) => HomeScreen());
           }
           
-          // Handle '/folder/:id' route
           final Uri uri = Uri.parse(settings.name ?? '');
           if (uri.pathSegments.length == 2 && uri.pathSegments.first == 'folder') {
             final folderId = uri.pathSegments[1];
@@ -51,7 +49,6 @@ class MyApp extends StatelessWidget {
             );
           }
 
-          // Return null if the route is not recognized
           return null;
         },
         title: 'Exci',
