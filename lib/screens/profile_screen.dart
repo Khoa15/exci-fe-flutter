@@ -1,5 +1,7 @@
-import 'package:exci_flutter/models/user_model.dart';
+import 'package:exci_flutter/models/user.dart';
 import 'package:exci_flutter/screens/analysis_screen.dart';
+import 'package:exci_flutter/screens/chat_bot_screen.dart';
+import 'package:exci_flutter/screens/image_bot_screen.dart';
 import 'package:exci_flutter/screens/rank_screen.dart';
 import 'package:exci_flutter/services/auth_service.dart';
 import 'package:exci_flutter/widgets/bottom_navigation_bar.dart';
@@ -11,7 +13,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  UserModel? _user;
+  User? _user;
   bool _isLoading = true;
   int _selectedIndex = 2;
 
@@ -42,7 +44,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _loadUser() async {
-    UserModel? user = await getUser();
+    User? user = await getUser();
     setState(() {
       _user = user;
       _isLoading = false;
@@ -73,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       CircleAvatar(
                         radius: 40,
-                        backgroundImage: NetworkImage(_user!.profilePictureUrl),
+                        backgroundImage: NetworkImage("https://cdn.jim-nielsen.com/ios/512/duolingo-language-lessons-2023-06-22.png?rf=1024"),
                       ),
                       SizedBox(width: 16.0),
                       Expanded(
@@ -84,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    _user!.name,
+                                    _user!.username,
                                     style: TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold),
@@ -103,7 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ],
                             ),
                             Text(
-                              '@${_user!.email}',
+                              '${_user!.email}',
                               style: TextStyle(
                                   fontSize: 18, color: Colors.grey[700]),
                             ),
@@ -122,29 +124,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: ListView(
                     padding: EdgeInsets.all(16.0),
                     children: [
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          // Xử lý khi nhấn nút
-                        },
-                        icon: const Icon(Icons.star, color: Colors.white),
-                        label: const Text(
-                          'Nâng cấp',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange, // Màu nền nổi bật
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 24.0, vertical: 12.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          elevation: 5, // Tạo hiệu ứng nổi
-                        ),
-                      ),
+                      // ElevatedButton.icon(
+                      //   onPressed: () {
+                      //     // Xử lý khi nhấn nút
+                      //   },
+                      //   icon: const Icon(Icons.star, color: Colors.white),
+                      //   label: const Text(
+                      //     'Nâng cấp',
+                      //     style: TextStyle(
+                      //       color: Colors.white,
+                      //       fontWeight: FontWeight.bold,
+                      //       fontSize: 16.0,
+                      //     ),
+                      //   ),
+                      //   style: ElevatedButton.styleFrom(
+                      //     backgroundColor: Colors.orange, // Màu nền nổi bật
+                      //     padding: const EdgeInsets.symmetric(
+                      //         horizontal: 24.0, vertical: 12.0),
+                      //     shape: RoundedRectangleBorder(
+                      //       borderRadius: BorderRadius.circular(8.0),
+                      //     ),
+                      //     elevation: 5, // Tạo hiệu ứng nổi
+                      //   ),
+                      // ),
                       SizedBox(height: 16.0),
                       ElevatedButton(
                         onPressed: () {
@@ -165,18 +167,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         },
                         child: Text('Phân tích chỉ số nhớ'),
                       ),
-                      ListTile(
-                        leading: Icon(Icons.bar_chart),
-                        title: Text('Phân tích chỉ số nhớ'),
-                        onTap: () {
+                      SizedBox(height: 16.0),
+                      ElevatedButton(
+                        onPressed: () {
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AnalysisScreen(),
-                            ),
-                          );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ImageBotScreen()));
                         },
+                        child: Text('Phân tích ảnh'),
                       ),
+                      SizedBox(height: 16.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChatBotScreen()));
+                        },
+                        child: Text('Chatbot'),
+                      ),
+                      // ListTile(
+                      //   leading: Icon(Icons.bar_chart),
+                      //   title: Text('Phân tích chỉ số nhớ'),
+                      //   onTap: () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //         builder: (context) => AnalysisScreen(),
+                      //       ),
+                      //     );
+                      //   },
+                      // ),
 
                       SizedBox(height: 16.0),
                       ElevatedButton(
@@ -186,12 +208,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Text('Góp ý & phản hồn'),
                       ),
                       SizedBox(height: 16.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Xử lý khi nhấn vào nút 3
-                        },
-                        child: Text('Thông tin ứng dụng'),
-                      ),
+                      // ElevatedButton(
+                      //   onPressed: () {
+                      //     // Xử lý khi nhấn vào nút 3
+                      //   },
+                      //   child: Text('Thông tin ứng dụng'),
+                      // ),
                       // Thêm các nút khác nếu cần
                     ],
                   ),
