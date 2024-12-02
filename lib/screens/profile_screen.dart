@@ -201,12 +201,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       // ),
 
                       SizedBox(height: 16.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Xử lý khi nhấn vào nút 3
-                        },
-                        child: Text('Góp ý & phản hồn'),
-                      ),
+                      // ElevatedButton(
+                      //   onPressed: () {
+                      //     // Xử lý khi nhấn vào nút 3
+                      //   },
+                      //   child: Text('Góp ý & phản hồn'),
+                      // ),
                       SizedBox(height: 16.0),
                       // ElevatedButton(
                       //   onPressed: () {

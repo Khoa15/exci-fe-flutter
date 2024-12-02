@@ -1,9 +1,11 @@
 import 'package:exci_flutter/models/collection.dart';
 // import 'package:exci_flutter/models/folder_model.dart';
 import 'package:exci_flutter/models/word.dart';
+import 'package:exci_flutter/screens/forgot_password_screen.dart';
 import 'package:exci_flutter/screens/home_screen.dart';
 import 'package:exci_flutter/screens/login_screen.dart';
 import 'package:exci_flutter/screens/profile_screen.dart';
+import 'package:exci_flutter/screens/forgot_password_screen.dart';
 import 'package:exci_flutter/screens/signup_screen.dart';
 import 'package:exci_flutter/screens/vocabulary_screen.dart';
 import 'package:exci_flutter/screens/practise_word_list_screen.dart';
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
           '/home': (context) => HomeScreen(),
           '/vocabulary': (context) => VocabularyScreen(),
           '/profile': (context) => ProfileScreen(),
-          '/forgot-password': (context) => ProfileScreen(),
+          '/forgot-password': (context) => ForgotPasswordScreen(),
         },
         onGenerateRoute: (settings) {
           if (settings.name == '/') {

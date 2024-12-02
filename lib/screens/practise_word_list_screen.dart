@@ -165,13 +165,13 @@ class _WordListScreenState extends State<WordListScreen> {
         stat!.nListening+=1;
         if(!_isCorrect){
           stat.nFListening++;
-          stat.nSteak = 0;
+          // stat.nSteak = 0;
         }
       case 3:
         stat!.nReading+=1;
         if(!_isCorrect){
           stat.nFReading++;
-          stat.nSteak = 0;
+          // stat.nSteak = 0;
         }
     }
     

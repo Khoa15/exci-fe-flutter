@@ -13,8 +13,8 @@ class ListWordStat{
       lstWordStats.add(WordStat(
         wordId: word.id,
         userId: userId,
-        nSteak: 0,
-        nMaxSteak: 0,
+        // nSteak: 0,
+        // nMaxSteak: 0,
         memoryStat: 0,
         nListening: 0,
         nFListening: 0,
@@ -22,8 +22,8 @@ class ListWordStat{
         nFReading: 0,
         nWriting: 0,
         nFWriting: 0,
-        nSpeaking: 0,
-        nFSpeaking: 0
+        // nSpeaking: 0,
+        // nFSpeaking: 0
         ));
     });
   }

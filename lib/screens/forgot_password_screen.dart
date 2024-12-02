@@ -2,12 +2,12 @@ import 'package:exci_flutter/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class _ForgotPasswordScreen extends StatefulWidget{
+class ForgotPasswordScreen extends StatefulWidget{
   @override
-  State<StatefulWidget> createState() => ForgotPasswordScreenState();
+  ForgotPasswordScreenState createState() => ForgotPasswordScreenState();
 }
 
-class ForgotPasswordScreenState extends State<_ForgotPasswordScreen>{
+class ForgotPasswordScreenState extends State<ForgotPasswordScreen>{
   final TextEditingController _emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {

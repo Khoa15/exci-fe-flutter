@@ -20,8 +20,11 @@ class _AddWordScreenState extends State<AddWordScreen> {
   final TextEditingController _meaningController = TextEditingController();
   final TextEditingController _exampleController = TextEditingController();
   final TextEditingController _ipaController = TextEditingController();
+  final TextEditingController _audioController = TextEditingController();
   int? _selectedCollectionId;
-
+  bool _useAI = false;
+  bool flag = false;
+  String apiResponse = '';
   ListPos lstPOS = ListPos();
   List<Collection> _collections = [];
   @override
@@ -98,32 +101,70 @@ class _AddWordScreenState extends State<AddWordScreen> {
       // ScaffoldMessenger.of(context).showSnackBar(
       //   SnackBar(content: Text('Thêm từ thành công!')),
       // );
-      
-      final response = await http.post(
-        Uri.parse('http://127.0.0.1:8000/words/user'),
-        headers: {"Content-Type": "application/json"},
-        body: json.encode({
-          "uid": widget.userId,
-          "sign": _wordController.text,
-          "pos": lstPOS.selectedPos,
-          "collection_id": 0,
-          "ipa": _ipaController.text,
-          "sound": null,
-          "meaning": _meaningController.text,
-          "example": _exampleController.text,
-          "level": "A1"
-        }),
-      );
+      if(_useAI && flag == false){
+        try {
+          String message = "từ vựng ${_wordController.text}, có ipa là ${_ipaController.text}, có pos là ${lstPOS.selectedPos}, có example là \"${_exampleController.text}\", có nghĩa là \"${_meaningController.text}\"";
+          final response = await http.post(
+            Uri.parse("http://localhost:11434/api/chat"),
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode({
+              "model": "assistant-admin-add-vocab",
+              "messages":[
+                {
+                  "role":"user",
+                  "content": message
+                }
+              ],
+              "stream": false,
+              "raw": true,
+              }),
+          );
 
-      if (response.statusCode == 200) {
-        Navigator.of(context).pop(true);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to add collection')),
-        );
+          if (response.statusCode == 200) {
+            final data = jsonDecode(response.body);
+            setState(() {
+              apiResponse = data["message"]["content"];//data['response']; // Thay đổi theo cấu trúc JSON của API
+              
+            });
+          } else {
+            print('Error: ${response.statusCode}');
+            return null;
+          }
+        } catch (e) {
+            setState(() {
+              apiResponse = e.toString();
+            });
+          print('Error: $e');
+          return null;
+        }
       }
-      // Reset toàn bộ input
-      _resetForm();
+      if(flag == true||_useAI == false){
+        final response = await http.post(
+          Uri.parse('http://127.0.0.1:8000/words/user'),
+          headers: {"Content-Type": "application/json"},
+          body: json.encode({
+            "uid": widget.userId,
+            "sign": _wordController.text,
+            "pos": lstPOS.selectedPos,
+            "collection_id": 0,
+            "ipa": _ipaController.text,
+            "sound": null,
+            "meaning": _meaningController.text,
+            "example": _exampleController.text,
+            "level": "A1"
+          }),
+        );
+
+        if (response.statusCode == 200) {
+          Navigator.of(context).pop(true);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed to add collection')),
+          );
+        }
+        _resetForm();
+
+      }
     }
   }
 
@@ -177,6 +218,12 @@ class _AddWordScreenState extends State<AddWordScreen> {
                     value == null ? 'Vui lòng nhập ví dụ' : null,
               ),
               TextFormField(
+                controller: _audioController,
+                decoration: InputDecoration(labelText: 'Audio'),
+                validator: (value) =>
+                    value == null ? 'Vui lòng nhập đường dẫn' : null,
+              ),
+              TextFormField(
                 controller: _ipaController,
                 decoration: InputDecoration(labelText: 'IPA (Optional)'),
               ),
@@ -220,6 +267,23 @@ class _AddWordScreenState extends State<AddWordScreen> {
 
               SizedBox(height: 20.0),
               Row(
+              children: [
+                Checkbox(
+                  value: _useAI,
+                  onChanged: (bool? newValue) {
+                    setState(() {
+                      _useAI = newValue ?? false; // Set the flag based on the checkbox state
+                    });
+                  },
+                ),
+                Text(
+                  'Bạn có muốn dùng AI hay không',
+                  style: TextStyle(fontSize: 16.0),
+                ),
+              ],
+            ),
+              SizedBox(height: 20.0),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ElevatedButton(
@@ -235,6 +299,12 @@ class _AddWordScreenState extends State<AddWordScreen> {
                   ),
                 ],
               ),
+              Text.rich(
+                TextSpan(
+                      text: apiResponse,
+                      style: TextStyle(fontSize: 16, color: Colors.black),
+                    ),
+              )
             ],
           ),
         ),

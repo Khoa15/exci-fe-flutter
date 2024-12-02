@@ -62,7 +62,7 @@ class AuthService with ChangeNotifier {
 
   Future<void> SendRequestForgotPassword(String email) async {
     try{
-      final response = await http.get(Uri.parse('${hostname}/api/Users/forgot-password/${email}'));
+      final response = await http.get(Uri.parse('${hostname}/api/Users/reset-password/${email}'));
       if(response.statusCode != 200){
         throw Exception("Có lỗi!");
       }
