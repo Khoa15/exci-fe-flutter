@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class VocabularyScreen extends StatefulWidget {
+  const VocabularyScreen({super.key});
+
   @override
   _VocabularyScreenState createState() => _VocabularyScreenState();
 }
@@ -16,7 +18,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
   final TextEditingController _searchController = TextEditingController();
   User? _user;
   String _selectedSearchOption = 'System';
-  List<Word>? _allWords = [];
+  final List<Word>? _allWords = [];
   List<Word> _filteredWords = [];
   int _selectedIndex = 1;
 
@@ -110,7 +112,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
 
   Future<void> _searchDictionaryWords() async {
     final query = _searchController.text;
-    final url = Uri.parse('https://api.dictionaryapi.dev/api/v2/entries/en/' + query);
+    final url = Uri.parse('https://api.dictionaryapi.dev/api/v2/entries/en/$query');
     try {
       final response = await http.get(
         url,
@@ -136,7 +138,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
 
   Future<void> _searchWords() async {
     final query = _searchController.text;
-    final url = Uri.parse('https://localhost:7235/words/' + query);
+    final url = Uri.parse('https://localhost:7235/words/$query');
     try {
       final response = await http.get(
         url,
@@ -204,7 +206,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
   }
 
   void _showReportDialog(String word) {
-    final TextEditingController _reportController = TextEditingController();
+    final TextEditingController reportController = TextEditingController();
 
     showDialog(
       context: context,
@@ -215,7 +217,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
-                controller: _reportController,
+                controller: reportController,
                 decoration: InputDecoration(
                   labelText: 'Enter description',
                 ),
@@ -227,7 +229,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
             ElevatedButton(
               onPressed: () {
                 // Xử lý khi nhấn Submit
-                print('Report submitted: ${_reportController.text}');
+                print('Report submitted: ${reportController.text}');
                 Navigator.of(context).pop();
               },
               child: Text('Submit'),

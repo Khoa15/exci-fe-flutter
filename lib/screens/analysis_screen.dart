@@ -3,6 +3,8 @@ import 'package:exci_flutter/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 class AnalysisScreen extends StatefulWidget{
+  const AnalysisScreen({super.key});
+
   @override
   State<StatefulWidget> createState() => AnalysisScreenState();
 }
@@ -32,7 +34,7 @@ class AnalysisScreenState extends State<AnalysisScreen> {
       });
     }catch(error){
         print(error);
-    };
+    }
 
   }
   @override

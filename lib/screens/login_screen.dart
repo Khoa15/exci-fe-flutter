@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }

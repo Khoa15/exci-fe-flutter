@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 class AddWordScreen extends StatefulWidget {
   final int userId;
 
-  AddWordScreen({required this.userId});
+  const AddWordScreen({super.key, required this.userId});
 
   @override
   _AddWordScreenState createState() => _AddWordScreenState();
@@ -128,14 +128,14 @@ class _AddWordScreenState extends State<AddWordScreen> {
             });
           } else {
             print('Error: ${response.statusCode}');
-            return null;
+            return;
           }
         } catch (e) {
             setState(() {
               apiResponse = e.toString();
             });
           print('Error: $e');
-          return null;
+          return;
         }
       }
       if(flag == true||_useAI == false){
@@ -292,10 +292,10 @@ class _AddWordScreenState extends State<AddWordScreen> {
                   ),
                   ElevatedButton(
                     onPressed: _resetForm,
-                    child: Text('Cancel'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red, // Màu nền của nút Cancel
                     ),
+                    child: Text('Cancel'),
                   ),
                 ],
               ),

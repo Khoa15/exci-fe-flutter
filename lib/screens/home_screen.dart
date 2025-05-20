@@ -64,6 +64,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -102,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen>
   Future<void> _loadCollections() async {
     try {
       await _loadUser();
-      final url = Uri.parse('https://localhost:7235/api/Collections/user/'+_user!.id.toString());
+      final url = Uri.parse('https://localhost:7235/api/Collections/user/${_user!.id}');
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
@@ -216,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen>
                     //     ),
                     //     Expanded(
                     //       child: //TabBarView(children: <Widget>[
-                    _isLoading || _collections.length == 0
+                    _isLoading || _collections.isEmpty
                         ? Center(child: CircularProgressIndicator())
                         : ListView.builder(
                             itemCount: _collections.length,
@@ -301,7 +303,7 @@ class _HomeScreenState extends State<HomeScreen>
             child: Align(
               alignment: Alignment.bottomLeft,
               child: FloatingActionButton(
-                onPressed: () => _navigateToWordList(new Collection(id: -1, name: "Revise")),
+                onPressed: () => _navigateToWordList(Collection(id: -1, name: "Revise")),
                 heroTag: 'learn',
                 shape: CircleBorder(),
                 mini: true,
@@ -347,10 +349,10 @@ class _HomeScreenState extends State<HomeScreen>
                   // Nút chính "+"
                   FloatingActionButton(
                     onPressed: _toggleFab,
-                    child: Icon(_isFabExpanded ? Icons.close : Icons.add),
                     heroTag: 'mainFAB',
                     shape: CircleBorder(),
                     mini: true,
+                    child: Icon(_isFabExpanded ? Icons.close : Icons.add),
                   ),
                 ],
               ),

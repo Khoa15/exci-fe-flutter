@@ -16,6 +16,8 @@ import 'package:http/http.dart' as http;
 // }
 
 class ChatBotScreen extends StatefulWidget {
+  const ChatBotScreen({super.key});
+
   @override
   _ChatBotScreenState createState() => _ChatBotScreenState();
 }

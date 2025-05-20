@@ -9,7 +9,7 @@ class ListWordStat{
     if(lstWords.isEmpty == true) return;
     
     lstWordStats = [];
-    lstWords.forEach((word) {
+    for (var word in lstWords) {
       lstWordStats.add(WordStat(
         wordId: word.id,
         userId: userId,
@@ -25,7 +25,7 @@ class ListWordStat{
         // nSpeaking: 0,
         // nFSpeaking: 0
         ));
-    });
+    }
   }
 
   WordStat? Search(int id){
@@ -53,7 +53,7 @@ class ListWordStat{
         }
       }catch(error){
         print(error);
-        print(stat.wordId.toString() + " " + stat.userId.toString());
+        print("${stat.wordId} ${stat.userId}");
       }
     });
   }
