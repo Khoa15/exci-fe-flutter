@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+// ignore: deprecated_member_use
 import 'dart:html' as html;
 import 'dart:io';
 import 'package:flutter/material.dart';

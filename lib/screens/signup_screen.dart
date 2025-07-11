@@ -27,6 +27,7 @@
 
 import 'dart:convert';
 
+import 'package:exci_flutter/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -47,7 +48,7 @@ class _SignupScreenState extends State<SignupScreen> {
     final String password = _passwordController.text;
 
     // Lấy URL từ biến môi trường
-    final String url = 'https://localhost:/api/Users';
+    final String url = '${host}/api/Users';
     var client = new http.Client();
     try {
       final response = await client.post(

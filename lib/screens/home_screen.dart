@@ -57,6 +57,7 @@ import 'package:exci_flutter/screens/add_folder_screen.dart';
 import 'package:exci_flutter/screens/add_word_screen.dart';
 import 'package:exci_flutter/screens/practise_word_list_screen.dart';
 import 'package:exci_flutter/services/auth_service.dart';
+import 'package:exci_flutter/utils/constants.dart';
 import 'package:exci_flutter/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -102,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen>
   Future<void> _loadCollections() async {
     try {
       await _loadUser();
-      final url = Uri.parse('https://localhost:7235/api/Collections/user/'+_user!.id.toString());
+      final url = Uri.parse('${host}/api/Collections/user/'+_user!.id.toString());
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
@@ -196,7 +197,16 @@ class _HomeScreenState extends State<HomeScreen>
     return Scaffold(
       body: GestureDetector(
           onTap: _hideFab,
-          child: Stack(
+          child: 
+          _collections.isEmpty == true ?
+            Stack(
+              children: [
+                Center(child: Text('No collections found')),
+                if (_isLoading) Center(child: CircularProgressIndicator()),
+              ],
+            )
+          :
+          Stack(
             children: [
               Padding(
                 padding: const EdgeInsets.all(16.0),

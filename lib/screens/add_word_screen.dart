@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:exci_flutter/models/collection.dart';
 import 'package:exci_flutter/models/pos.dart';
+import 'package:exci_flutter/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -64,7 +65,7 @@ class _AddWordScreenState extends State<AddWordScreen> {
   }
 
   Future<void> _loadCollections() async {
-    final url = Uri.parse('http://localhost:8000/collections/user/${widget.userId}');
+    final url = Uri.parse('${host}/collections/user/${widget.userId}');
     try {
       final response = await http.get(url, headers: {'Content-Type': 'application/json'});
       if (response.statusCode == 200) {

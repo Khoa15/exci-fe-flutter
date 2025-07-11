@@ -5,6 +5,7 @@ import 'package:exci_flutter/models/user.dart';
 import 'package:exci_flutter/models/word_stat.dart';
 import 'package:exci_flutter/services/auth_service.dart';
 import 'package:exci_flutter/services/word_service.dart';
+import 'package:exci_flutter/utils/constants.dart';
 // import 'package:exci_flutter/models/folder_model.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -59,7 +60,7 @@ class _WordListScreenState extends State<WordListScreen> {
   
   Future<void> _saveSectionLearning() async {
     try{
-      final url = Uri.parse('https://localhost:7235/api/SectionLearnings/');
+      final url = Uri.parse('${host}/api/SectionLearnings/');
       final response = await http.post(
           url,
           headers: {"Content-Type": "application/json"},
@@ -89,10 +90,10 @@ class _WordListScreenState extends State<WordListScreen> {
 
   Future<void> _fetchDataCollection() async {
     try{
-        var url = Uri.parse('https://localhost:7235/api/Collections/${widget.collectionId}');
+        var url = Uri.parse('${host}/api/Collections/${widget.collectionId}');
       if(widget.collectionId == -1){
         await _loadUser();
-        url = Uri.parse('https://localhost:7235/api/USER_VOCAB/ready/${_user!.id}');
+        url = Uri.parse('${host}/api/USER_VOCAB/ready/${_user!.id}');
       }
       final response = await http.get(url);
 

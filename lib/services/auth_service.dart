@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:exci_flutter/models/user.dart';
+import 'package:exci_flutter/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -15,7 +16,7 @@ Future<User?> getUser() async {
 }
 
 class AuthService with ChangeNotifier {
-  String hostname = 'https://localhost:7235';
+  String hostname = host;
   bool _isLoggedIn = false;
 
   bool get isLoggedIn => _isLoggedIn;

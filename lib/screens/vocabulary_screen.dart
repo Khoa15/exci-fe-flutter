@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:exci_flutter/models/user.dart';
 import 'package:exci_flutter/models/word.dart';
 import 'package:exci_flutter/services/auth_service.dart';
+import 'package:exci_flutter/utils/constants.dart';
 import 'package:exci_flutter/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -136,7 +137,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
 
   Future<void> _searchWords() async {
     final query = _searchController.text;
-    final url = Uri.parse('https://localhost:7235/words/' + query);
+    final url = Uri.parse('${host}/words/' + query);
     try {
       final response = await http.get(
         url,
@@ -174,7 +175,7 @@ class _VocabularyScreenState extends State<VocabularyScreen> {
     try{
 
       final response = await http.post(
-        Uri.parse('https://localhost:7235/api/Vocabs'),
+        Uri.parse('${host}/api/Vocabs'),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "uid": _user!.id,

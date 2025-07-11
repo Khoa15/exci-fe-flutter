@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:exci_flutter/models/word.dart';
 import 'package:exci_flutter/models/word_stat.dart';
+import 'package:exci_flutter/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
 class ListWordStat{
@@ -41,7 +42,7 @@ class ListWordStat{
     lstWordStats.forEach((stat) async {
       try{
         stat.CalculateMemoryStat();
-        final url = Uri.parse('https://localhost:7235/api/USER_VOCAB');
+        final url = Uri.parse('${host}/api/USER_VOCAB');
         final response = await http.post(
             url,
             headers: {"Content-Type": "application/json"},

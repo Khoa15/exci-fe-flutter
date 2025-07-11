@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:exci_flutter/utils/constants.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:http/http.dart' as http;
@@ -46,7 +47,7 @@ class User extends Equatable {
 
   Future<List<UserRank>?> GetListRank()async{
     try{
-      var response = await http.get(Uri.parse("https://localhost:7235/api/Users/list-rank"));
+      var response = await http.get(Uri.parse("${host}/api/Users/list-rank"));
       if (response.statusCode == 200) {
         List<dynamic> jsonData = jsonDecode(response.body);
 
