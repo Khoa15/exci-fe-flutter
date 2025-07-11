@@ -1,5 +1,3 @@
-import 'package:exci_flutter/models/word_stat.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 
 import 'collection.dart';

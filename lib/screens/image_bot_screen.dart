@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 
 
 class ImageBotScreen extends StatefulWidget {
+  const ImageBotScreen({super.key});
+
   @override
   _ImageBotScreenState createState() => _ImageBotScreenState();
 }

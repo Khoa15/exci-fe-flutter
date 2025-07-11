@@ -14,7 +14,7 @@ import 'package:http/http.dart' as http;
 class WordListScreen extends StatefulWidget {
   final int collectionId;
   // final int userId;
-  WordListScreen({required this.collectionId});
+  const WordListScreen({super.key, required this.collectionId});
 
   @override
   _WordListScreenState createState() => _WordListScreenState();
@@ -331,6 +331,8 @@ class _WordListScreenState extends State<WordListScreen> {
 
 
 class CongratulationsScreen extends StatelessWidget {
+  const CongratulationsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

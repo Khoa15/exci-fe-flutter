@@ -6,7 +6,7 @@ import 'dart:convert';
 class AddFolderDialog extends StatefulWidget {
   final int userId;
 
-  AddFolderDialog({required this.userId});
+  const AddFolderDialog({super.key, required this.userId});
 
   @override
   _AddFolderDialogState createState() => _AddFolderDialogState();

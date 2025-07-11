@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class RankScreen extends StatefulWidget {
+  const RankScreen({super.key});
+
   @override
   RankScreenState createState() => RankScreenState();
 }
@@ -34,7 +36,7 @@ class RankScreenState extends State<RankScreen>{
       });
     }catch(error){
         print(error);
-    };
+    }
 
   }
   List<Color> top10Colors = [

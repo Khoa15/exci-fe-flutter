@@ -6,7 +6,7 @@ import 'dart:convert';
 class AddFolderScreen extends StatefulWidget {
   final int userId;
 
-  AddFolderScreen({required this.userId});
+  const AddFolderScreen({super.key, required this.userId});
 
   @override
   _AddFolderScreenState createState() => _AddFolderScreenState();

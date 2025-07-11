@@ -8,6 +8,8 @@ import 'package:exci_flutter/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
+
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
@@ -105,7 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ],
                             ),
                             Text(
-                              '${_user!.email}',
+                              _user!.email,
                               style: TextStyle(
                                   fontSize: 18, color: Colors.grey[700]),
                             ),

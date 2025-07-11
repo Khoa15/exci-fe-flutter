@@ -12,7 +12,7 @@ class Collection extends Equatable {
   // final int totalWords;
   final bool? Active;
 
-  Collection({
+  const Collection({
     required this.id,
     required this.name,
     this.listWords,

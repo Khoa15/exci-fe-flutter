@@ -32,7 +32,7 @@ class AuthService with ChangeNotifier {
   }
 
   Future<bool> login(String email, String password) async {
-    final url = Uri.parse('${hostname}/api/Users/sign-in');
+    final url = Uri.parse('$hostname/api/Users/sign-in');
 
     try {
       final response = await http.post(
@@ -63,13 +63,13 @@ class AuthService with ChangeNotifier {
 
   Future<void> SendRequestForgotPassword(String email) async {
     try{
-      final response = await http.get(Uri.parse('${hostname}/api/Users/reset-password/${email}'));
+      final response = await http.get(Uri.parse('$hostname/api/Users/reset-password/$email'));
       if(response.statusCode != 200){
         throw Exception("Có lỗi!");
       }
     }catch(error){
       print(error);
-      throw error;
+      rethrow;
     }
   }
 

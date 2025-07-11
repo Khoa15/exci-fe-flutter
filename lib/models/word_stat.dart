@@ -49,8 +49,8 @@ class WordStat extends Equatable {
       _$WordStatFromJson(json);
 
   Map<String, dynamic> toJson() => _$WordStatToJson(this);
-  Map<String, dynamic> toInsertRequestJson(int total, int n_true) =>
-      _$WordStatInsertToJson(this, total, n_true);
+  Map<String, dynamic> toInsertRequestJson(int total, int nTrue) =>
+      _$WordStatInsertToJson(this, total, nTrue);
 
   @override
   List<Object?> get props => [wordId, userId];
